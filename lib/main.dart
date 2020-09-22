@@ -13,6 +13,11 @@ class StarWarsData extends StatefulWidget {
 }
 
 class _StarWarsDataState extends State<StarWarsData> {
+  Icon customIcon = Icon(Icons.search);
+  static Text titleText = Text("Star Wars API");
+  Widget customSearchBar = titleText;
+
+
   final String url = "http://swapi.dev/api/people/";
   List data;
 
@@ -30,7 +35,30 @@ class _StarWarsDataState extends State<StarWarsData> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text("Star wars characters"),
+          title: customSearchBar,
+          actions: <Widget>[
+            IconButton(
+                icon: customIcon,
+                onPressed: () {
+                  setState(() {
+                    if(this.customIcon.icon == Icons.search) {
+                      this.customIcon = Icon(Icons.cancel);
+                      this.customSearchBar = TextField(
+                        textInputAction: TextInputAction.go,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "Search character"
+                        ),
+                        style:  TextStyle(color: Colors.white,
+                        fontSize: 16),
+                      );
+                    } else {
+                      this.customIcon = Icon(Icons.search);
+                      this.customSearchBar = titleText;
+                    }
+                  });
+                })
+          ],
           backgroundColor: Colors.amber,
         ),
         body: ListView.builder(
@@ -40,10 +68,11 @@ class _StarWarsDataState extends State<StarWarsData> {
               elevation: 5,
               margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
               child: Container(
-                padding: EdgeInsets.all(15),
-                child: Text(data[index]["name"],
-                  style: TextStyle(fontSize: 18, color: Colors.black),
-              )),
+                  padding: EdgeInsets.all(15),
+                  child: Text(
+                    data[index]["name"],
+                    style: TextStyle(fontSize: 18, color: Colors.black),
+                  )),
             );
           },
         ),
