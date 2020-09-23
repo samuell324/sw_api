@@ -8,7 +8,7 @@ class Character {
   final String gender;
 
   Character({this.name, this.height, this.mass, this.hairColor,
-  this.skinColor, this.eyeColor, this.gender});
+    this.skinColor, this.eyeColor, this.gender});
 
   factory Character.fromJson(Map<String, dynamic> json) {
     return Character (
@@ -22,3 +22,4 @@ class Character {
     );
   }
 }
+

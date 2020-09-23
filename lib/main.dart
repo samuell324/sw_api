@@ -21,7 +21,7 @@ class _StarWarsDataState extends State<StarWarsData> {
   final String url = "http://swapi.dev/api/people/";
   List data;
 
-  Future<http.Response> getData() async {
+   Future<http.Response> getData() async {
     var res = await http
         .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
     setState(() {
@@ -46,11 +46,11 @@ class _StarWarsDataState extends State<StarWarsData> {
                       this.customSearchBar = TextField(
                         textInputAction: TextInputAction.go,
                         decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: "Search character"
+                            border: InputBorder.none,
+                            hintText: "Search character"
                         ),
                         style:  TextStyle(color: Colors.white,
-                        fontSize: 16),
+                            fontSize: 16),
                       );
                     } else {
                       this.customIcon = Icon(Icons.search);
