@@ -1,7 +1,7 @@
 class Character {
   final String name;
-  final int height;
-  final int mass;
+  final String height;
+  final String mass;
   final String hairColor;
   final String skinColor;
   final String eyeColor;
@@ -12,13 +12,13 @@ class Character {
 
   factory Character.fromJson(Map<String, dynamic> json) {
     return Character (
-      name: json['name'],
-      height: json['height'],
-      mass: json['mass'],
-      hairColor: json['hairColor'],
-      skinColor: json['skinColor'],
-      eyeColor: json['eyeColor'],
-      gender: json['gender'],
+      name: json['name'] as String,
+      height: json['height'] as String,
+      mass: json['mass'] as String,
+      hairColor: json['hairColor'] as String,
+      skinColor: json['skinColor'] as String,
+      eyeColor: json['eyeColor'] as String,
+      gender: json['gender'] as String,
     );
   }
 }

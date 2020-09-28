@@ -30,19 +30,6 @@ class _StarWarsDataState extends State<StarWarsData> {
   Icon customIcon = Icon(Icons.search);
   static Text titleText = Text("Star Wars API");
   Widget customSearchBar = titleText;
-
-  final String url = "http://swapi.dev/api/people/";
-  List data;
-
-  Future<http.Response> getData() async {
-    var res = await http
-        .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
-    setState(() {
-      var resBody = json.decode(res.body);
-      data = resBody["results"];
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -72,36 +59,49 @@ class _StarWarsDataState extends State<StarWarsData> {
           ],
           backgroundColor: Colors.amber,
         ),
-        body: ListView.builder(
-          itemCount: data == null ? 0 : data.length,
-          itemBuilder: (context, index) {
-            return Card(
-              elevation: 5,
-              margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-              child: Container(
-                padding: EdgeInsets.all(15),
-                child: ListTile(
-                  title: Text(
-                    data[index]["name"],
-                    style: TextStyle(fontSize: 18, color: Colors.black),
-                  ),
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => SecondPage(data: data[index]["name"])
-                    ));
-                  },
-                ),
-              ),
-            );
+        body: FutureBuilder<List<Character>>(
+          future: fetchCharacters(http.Client()),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) print(snapshot.error);
+            return snapshot.hasData
+                ? CharacterList(character: snapshot.data)
+                : Center(child: CircularProgressIndicator());
           },
         ),
       ),
     );
   }
+}
+
+
+class CharacterList extends StatelessWidget {
+  final List<Character> character;
+  CharacterList({Key key, this.character}) : super(key: key);
 
   @override
-  void initState() {
-    super.initState();
-    this.getData();
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: character.length,
+      itemBuilder: (context, index) {
+        return Card(
+          elevation: 5,
+          margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+          child: Container(
+            padding: EdgeInsets.all(15),
+            child: ListTile(
+              title: Text(
+                character[index].name,
+                style: TextStyle(fontSize: 18, color: Colors.black),
+              ),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) => SecondPage(data: character[index].name,)
+                ));
+              },
+            ),
+          ),
+        );
+      },
+    );
   }
 }
