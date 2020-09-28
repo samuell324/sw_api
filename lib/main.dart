@@ -3,6 +3,12 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'secondPage.dart';
+import 'characterModel.dart';
+
+List<Character> parseCharacter(responseBody) {
+  final parsed = jsonDecode(responseBody) as Map<String, dynamic>;
+  return parsed["results"].map<Character>((json) => Character.fromJson(json)).toList();
+}
 
 void main() {
   runApp(StarWarsData());
@@ -74,7 +80,7 @@ class _StarWarsDataState extends State<StarWarsData> {
                   ),
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => SecondPage(data: data[index]["name"])
+                        builder: (context) => SecondPage(data: data[index]["name"])
                     ));
                   },
                 ),

@@ -8,6 +8,7 @@ class SecondPage extends StatelessWidget {
     @required this.data,
   }) : super(key: key);
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
